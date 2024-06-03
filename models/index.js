@@ -30,6 +30,7 @@ import ProjectType from './projectTypeModel.js';
 import Schedule from './scheduleModel.js';
 import Statuses from './statusModel.js';
 import SeverityType from './severityTypeModel.js';
+import Device from './deviceModel.js';
 
 db.User = User(sequelize, Sequelize.DataTypes);
 db.Role = Role(sequelize, Sequelize.DataTypes);
@@ -42,6 +43,7 @@ db.ProjectType = ProjectType(sequelize, Sequelize.DataTypes);
 db.Schedule = Schedule(sequelize, Sequelize.DataTypes);
 db.Statuses = Statuses(sequelize, Sequelize.DataTypes);
 db.SeverityType = SeverityType(sequelize, Sequelize.DataTypes);
+db.Device = Device(sequelize, Sequelize.DataTypes);
 
 
 // ==================
