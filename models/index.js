@@ -21,6 +21,7 @@ db.Sequelize = Sequelize;
 import User from './userModel.js';
 import Role from './roleModel.js';
 import Report from './reportsModel.js';
+import Development from './developmentModel.js';
 
 // SYSTEM SETTINGS
 import IssueType from './issueTypeModel.js';
@@ -32,6 +33,7 @@ import SeverityType from './severityTypeModel.js';
 db.User = User(sequelize, Sequelize.DataTypes);
 db.Role = Role(sequelize, Sequelize.DataTypes);
 db.Report = Report(sequelize, Sequelize.DataTypes);
+db.Development = Development(sequelize, Sequelize.DataTypes);
 
 db.IssueType = IssueType(sequelize, Sequelize.DataTypes);
 db.ProjectType = ProjectType(sequelize, Sequelize.DataTypes);
@@ -51,5 +53,11 @@ db.Role.hasOne(db.User, { foreignKey: 'role_id', sourceKey: 'id' });
 // User -> Report
 db.Report.belongsTo(db.User, { foreignKey: 'user_id', sourceKey: 'id' });
 db.User.hasOne(db.Report, { foreignKey: 'user_id', sourceKey: 'id' });
+
+// (Statuses && User) -> Development 
+db.Development.belongsToMany(db.User, { through: 'DevelopmentUsers', sourceKey: 'id' });
+db.User.hasOne(db.Development, { through: 'DevelopmentUsers', sourceKey: 'id' });
+db.Development.belongsTo(db.Statuses, { foreignKey: 'status_id', sourceKey: 'id' });
+db.Statuses.hasOne(db.Development, { foreignKey: 'status_id', sourceKey: 'id' });
 
 export default db;

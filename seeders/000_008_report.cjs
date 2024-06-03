@@ -21,7 +21,7 @@ module.exports = {
         return acc;
     }, {});
     
-    console.log('users: ', userMap)
+    // console.log('users: ', userMap)
 
     await queryInterface.bulkInsert('reports', [
       {
