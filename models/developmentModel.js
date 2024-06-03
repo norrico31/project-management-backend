@@ -9,12 +9,6 @@ export default (sequelize, DataTypes) => {
         user_id: {
             type: DataTypes.JSON,
             allowNull: true,
-            // references: {
-            //     model: 'User',
-            //     key: 'id',
-            // },
-            // onUpdate: 'CASCADE',
-            // onDelete: 'SET NULL'
         },
         start_date: {
             type: DataTypes.DATE,

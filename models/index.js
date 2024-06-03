@@ -22,6 +22,7 @@ import User from './userModel.js';
 import Role from './roleModel.js';
 import Report from './reportsModel.js';
 import Development from './developmentModel.js';
+import Backlog from './backlogModel.js';
 
 // SYSTEM SETTINGS
 import IssueType from './issueTypeModel.js';
@@ -34,6 +35,7 @@ db.User = User(sequelize, Sequelize.DataTypes);
 db.Role = Role(sequelize, Sequelize.DataTypes);
 db.Report = Report(sequelize, Sequelize.DataTypes);
 db.Development = Development(sequelize, Sequelize.DataTypes);
+db.Backlog = Backlog(sequelize, Sequelize.DataTypes);
 
 db.IssueType = IssueType(sequelize, Sequelize.DataTypes);
 db.ProjectType = ProjectType(sequelize, Sequelize.DataTypes);
