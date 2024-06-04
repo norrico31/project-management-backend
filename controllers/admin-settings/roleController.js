@@ -1,3 +1,4 @@
+import { Op } from 'sequelize';
 import AsyncHandler from 'express-async-handler'
 import Models from '../../models/index.js'
 const {Role} = Models; 
@@ -5,7 +6,20 @@ const {Role} = Models;
 // GET
 // ALL ROLES
 const getRoles = AsyncHandler(async (req, res) => {
-    const roles = await Role.findAll()
+    const { search = ''} = req.query;
+    const query = {
+        ...(search !== '') ? {
+            where: {
+                [Op.or]:[
+                    { name: { [Op.like]: `%${search}%` } },
+                    { description: { [Op.like]: `%${search}%` } },
+                    // Add more columns as needed
+                  ]
+            }
+        } : {}
+    }
+    console.log('search: ', query)
+    const roles = await Role.findAll(query) // TODO: search query
     return res.json({message: 'Success', data: roles})
 })
 
