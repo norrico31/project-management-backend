@@ -18,8 +18,7 @@ const getRoles = AsyncHandler(async (req, res) => {
             }
         } : {}
     }
-    console.log('search: ', query)
-    const roles = await Role.findAll(query) // TODO: search query
+    const roles = await Role.findAll(query)
     return res.json({message: 'Success', data: roles})
 })
 
