@@ -12,9 +12,9 @@ import statusRoutes from './system-settings/statusRoutes.js';
 import deviceRoutes from './system-settings/deviceRoutes.js';
 import reportRoutes from './reportRoutes.js';
 
-function createRoute(path) {
-    return `/api/${process.env.APP_VERSION}${path}`;
-}
+const VERSION = process.env.APP_VERSION
+
+const createRoute = (path) => `/api/${VERSION}${path}`;
 
 export default function Routes(app) {
     app.get(createRoute('/'), (req, res) => res.send("javaScript world!"));
@@ -23,6 +23,7 @@ export default function Routes(app) {
     app.use(createRoute('/users'), userRoutes);
     
     app.use(createRoute('/reports'), reportRoutes);
+    app.use(createRoute('/backlogs'), reportRoutes);
 
     app.use(createRoute('/issue-types'), issueTypeRoutes);
     app.use(createRoute('/project-types'), projectTypeRoutes);

@@ -5,7 +5,6 @@ const { Report, User } = Models;
 // ALL REPORT
 async function getReports(req, res) {
     try {
-        console.log('reports: ')
         const reports = await Report.findAll({
             include: {
                 model: User,
