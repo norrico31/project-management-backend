@@ -51,7 +51,7 @@ export default (sequelize, DataTypes) => {
         },
         fixed_by: {
                 type: DataTypes.UUID,
-                allowNull: true,
+                allowNull: false,
                 references: {
                     model: 'user',
                     key: 'id',
@@ -70,18 +70,14 @@ export default (sequelize, DataTypes) => {
                 onDelete: 'SET NULL'
         },
         device_id: {
-            type: DataTypes.STRING,
+            type: DataTypes.UUID,
             allowNull: false,
-            // qa_reference: {
-            //     type: DataTypes.UUID,
-            //     allowNull: true,
-            //     references: {
-            //         model: 'Device',
-            //         key: 'id',
-            //     },
-            //     onUpdate: 'CASCADE',
-            //     onDelete: 'SET NULL'
-            // },
+            references: {
+                model: 'device',
+                key: 'id',
+            },
+            onUpdate: 'CASCADE',
+            onDelete: 'SET NULL'
         },
         url: {
             type: DataTypes.STRING,

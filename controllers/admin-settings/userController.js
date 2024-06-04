@@ -1,3 +1,4 @@
+import AsyncHandler from 'express-async-handler'
 import Models from '../../models/index.js'
 import dotenv from 'dotenv'
 import bcrypt from 'bcrypt'
@@ -8,32 +9,38 @@ const { User, Role } = Models
 
 // POST 
 // Register User
-async function registerUser(req, res) {
+const registerUser = AsyncHandler(async (req, res) => {
     const { email, password } = req.body
-    try {
-        const hashedPassword = await bcrypt.hash(password, await bcrypt.genSalt(10))
-        const result = await User.create({ email, password: hashedPassword })
-        return res.json({ message: 'Success', data: result })
-    } catch (error) {
-        return error
+    const userExist = await User.findOne({email})
+    if (userExist) {
+        res.status(400)
+        throw new Error('User already exists!')
     }
-}
+    const hashedPassword = await bcrypt.hash(password, await bcrypt.genSalt(10))
+    const user = await User.create({ email, password: hashedPassword })
+    if (user) {
+        res.status(201).json({
+            message: 'User create successfully', 
+            data: user
+        })
+    }
+    res.status(400)
+    throw new Error('Invalid user data')
+})
 
 // POST 
 // Login User
-async function loginUser(req, res) {
+const loginUser = AsyncHandler(async (req, res) => {
     const { email, password } = req.body
-    try {
-        const user = await User.findOne({ where: { email } })
-        const isMatchPassword = await bcrypt.compare(password, user.password)
-        if (!user || !isMatchPassword) return res.json({ message: 'Invalid credentials!' })
-        const token = jwt.sign({ user_id: user.id }, process.env.SECRET_KEY, { expiresIn: '7d' })
-        return res.json({ message: 'Success', token })
-    } catch (error) {
-        console.log('error sa login: ', error)
-        return error
-    }
-}
+    const user = await User.findOne({ where: { email } })
+    const isMatchPassword = await bcrypt.compare(password, user.password)
+    if (!user || !isMatchPassword) {
+        res.status(400)
+        throw new Error('Invalid credentials!')
+    } 
+    const token = jwt.sign({ user_id: user.id }, process.env.SECRET_KEY, { expiresIn: '7d' })
+    return res.status(200).json({ message: 'Login Successfully', token })
+})
 
 // GET 
 // ALL USERS
@@ -51,6 +58,7 @@ async function getUsers(req, res) {
         return error
     }
 }
+// if ()
 
 // GET 
 // SINGLE USER

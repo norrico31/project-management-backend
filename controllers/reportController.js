@@ -4,6 +4,7 @@ const { Report, User } = Models;
 // GET
 // ALL REPORT
 async function getReports(req, res) {
+    console.log('reports')
     try {
         const reports = await Report.findAll({
             include: {
@@ -33,6 +34,7 @@ async function getReport(req, res) {
 // POST
 // CREATE SINGLE REPORT
 async function createReport(req, res) {
+    console.log('create report')
     const {name, description} = req.body
     try {
         const createdReport = Report.create({name, description})

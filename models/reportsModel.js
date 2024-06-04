@@ -2,6 +2,12 @@
 
 export default (sequelize, DataTypes) => {
     const Reports = sequelize.define('reports', {
+        id: {
+            primaryKey: true,
+            type: DataTypes.UUID,
+            defaultValue: DataTypes.UUIDV4,
+            allowNull: false,
+        },
         user_id: {
             type: DataTypes.INTEGER,
             references: {

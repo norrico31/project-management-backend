@@ -1,6 +1,6 @@
 import express from 'express'
 const router = express.Router()
-import { protect } from '../../middleware/authentication.js'
+import { protect } from '../../middleware/authMiddleware.js'
 import {
     getDevices,
     getDevice,

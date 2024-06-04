@@ -3,7 +3,8 @@ import { config as dotenvConfig } from "dotenv";
 import cors from "cors";
 import RateLimit from 'express-rate-limit';
 import bodyParser from "body-parser";
-import appRoutes from './routes/index.js'
+import {notFound,errorHandler} from './middleware/errorMiddleware.js'
+import Routes from './routes/index.js'
 import './database.js';
 
 dotenvConfig();
@@ -21,7 +22,11 @@ app.use(cors());
 app.use(bodyParser.json({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
+
 app.listen(PORT, () => {
-    appRoutes(app);
+    Routes(app);
+    
+    app.use(notFound)
+    app.use(errorHandler)
     console.log(`[server]: Server is running at http://localhost:${PORT}`);
 });
