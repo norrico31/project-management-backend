@@ -10,7 +10,13 @@ const protect = async (req, res, next) => {
         try {
             token = req.headers.authorization.split(' ')[1]
             const decoded = jwt.verify(token, process.env.SECRET_KEY)
-            req.user = await User.findOne({ where: { id: decoded.user_id } })
+            console.log('decoded: ', await User.findByPk(decoded.user_id))
+            const user = await User.findByPk(decoded.user_id)
+            if (!user) {
+                res.status(400)
+                throw new Error('Token Expired')
+            }
+            req.user = await User.findByPk(decoded.user_id)
             next()
         } catch (error) {
             res.status(401).json({ message: 'Not authorized, token failed' })

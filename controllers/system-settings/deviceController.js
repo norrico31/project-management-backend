@@ -1,72 +1,80 @@
 import Models from '../../models/index.js'
+import AsyncHandler  from 'express-async-handler';
 const { Device } = Models
 
 // GET
 // ALL DEVICES
-async function getDevices(req, res) {
-    try {
-        const devices = await Device.findAll()
-        return res.json({message: 'Success', data: devices})
-    } catch (error) {
-        return error
+const getDevices = AsyncHandler (async (req, res) => {
+    const { search = ''} = req.query;
+    const query = {
+        ...(search !== '') ? {
+            where: {
+                [Op.or]:[
+                    { email: { [Op.like]: `%${search}%` } },
+                    { first_name: { [Op.like]: `%${search}%` } },
+                    { last_name: { [Op.like]: `%${search}%` } },
+                    { middle_name: { [Op.like]: `%${search}%` } },
+                    { age: { [Op.like]: `%${search}%` } },
+                    { phone_no: { [Op.like]: `%${search}%` } },
+                  ]
+            }
+        } : {}
     }
-}
+    const devices = await Device.findAll(query)
+    res.json({message: 'Success', data: devices})
+})
 
 // GET
 // SINGLE DEVICE
-async function getDevice(req, res) {
-    try {
-        const deviceId = req.body.id
-        const device = await Device.findByPk(deviceId)
-        if (!device) return res.json({message: 'Device not found!', })
-        return res.json({message: 'Success', data: device})
-    } catch (error) {
-        return error
+const getDevice = AsyncHandler(async (req, res) => {
+    const deviceId = req.params.id
+    const device = await Device.findByPk(deviceId)
+    if (!device) {
+        res.status(404)
+        throw new Error('Device not found!')
     }
-}
+    res.json({message: 'Success', data: device})
+})
 
 // POST
 // CREATE SINGLE DEVICE
-async function createDevice(req, res) {
+const createDevice = AsyncHandler(async (req, res) => {
     const {name, description} = req.body
-    try {
-        const createdDevice = Device.create({name, description})
-        return res.json({message: 'Created device successfully', data: createdDevice})
-    } catch (error) {
-        // handle validation for name
-        return error
+    const createdDevice = await Device.create({name, description})
+    if (!createdDevice) {
+        res.status(400)
+        throw new Error('Please enter valid device name')
     }
-}
+    res.json({message: 'Success', data: createdDevice})
+})
 
 // PUT
 // UPDATE SINGLE DEVICE
-async function updateDevice(req, res) {
+const updateDevice = AsyncHandler(async (req, res) => {
     const deviceId = req.params.id
-    const {name, description} = req.body
-    try {
-        const device = await Device.findByPk(deviceId)
-        if (!device) return res.json({message: 'Device not found!'})
+    const device = await Device.findByPk(deviceId)
+    if (device) {
+        const {name, description} = req.body
         device.name = name
         device.description = description
         const updateDevice = await device.save()
-        return res.json({message: 'Update device successfully', data: updateDevice})
-    } catch (error) {
-        // handle validation for name
-        return error
+        res.json({message: 'Update Device Successfully!', data: updateDevice})
     }
-}
+    res.status(404)
+    throw new Error('Device not found!')
+})
 
 // DELETE
 // SINGLE DEVICE
-async function deleteDevice(req, res) {
-    try {
-        const deviceId = req.params.id
-        const deletedDevice = await Device.destroy({where: {id: deviceId}},)
-        return res.json({message: 'Delete device successfully', data: deletedDevice})
-    } catch (error) {
-        return error
+const deleteDevice = AsyncHandler(async (req, res) => {
+    const deviceId = req.params.id
+    const deletedDevice = await Device.findByPk(deviceId)
+    if (!deletedDevice) {
+        res.status(404)
+        throw new Error('Device not found!')
     }
-}
+    res.json({message: 'Delete Device Successfully!'})
+})
 
 export {
     getDevices,

@@ -12,7 +12,6 @@ const { User, Role } = Models
 const registerUser = AsyncHandler(async (req, res) => {
     const { email, password } = req.body
     const userExist = await User.findOne({where: {email}})
-    console.log(email)
     if (userExist) {
         res.status(400)
         throw new Error('User already exists!')
@@ -33,9 +32,17 @@ const registerUser = AsyncHandler(async (req, res) => {
 // Login User
 const loginUser = AsyncHandler(async (req, res) => {
     const { email, password } = req.body
+    if (!email || !password) {
+        res.status(400)
+        throw new Error('Invalid credentials!')
+    }
     const user = await User.findOne({ where: { email } })
-    const isMatchPassword = await bcrypt.compare(password, user.password)
-    if (!user || !isMatchPassword) {
+    if (!user) {
+        res.status(404)
+        throw new Error("Email does not exists!")
+    }
+    const isMatchPassword = await bcrypt.compare(password, user?.password)
+    if (!isMatchPassword) {
         res.status(401)
         throw new Error('Invalid credentials!')
     } 
@@ -69,10 +76,6 @@ const getUsers = AsyncHandler(async (req, res) => {
             as: 'role'
         }],
     });
-    if (!users) {
-        res.status(400)
-        throw new Error('User not found!')
-    }
     res.json({message: 'Success', data: users})
 })
 
@@ -80,7 +83,14 @@ const getUsers = AsyncHandler(async (req, res) => {
 // SINGLE USER
 const getUserProfile = AsyncHandler(async (req, res) => {
     const userId = req.user.id
-    const user = await User.findOne({ where: { id: userId }, attributes: { exclude: 'password' } })
+    const user = await User.findOne({ 
+        include: [{
+            model: Role,
+            as: 'role'
+        }],
+        where: { id: userId }, 
+        attributes: { exclude: 'password' } 
+    })
     if (!user) {
         res.status(400)
         throw new Error('Profile not found')
@@ -90,9 +100,8 @@ const getUserProfile = AsyncHandler(async (req, res) => {
 
 // PUT 
 // UPDATE SINGLE USER
-// TODO on USERMODEL
 const updateUser = AsyncHandler(async (req, res) => {
-    const { id } = req.params; // Assuming you pass the user ID as a URL parameter
+    const { id } = req.params; 
     const user = await User.findByPk(id, {
         include: [{
             model: Role,
@@ -100,7 +109,7 @@ const updateUser = AsyncHandler(async (req, res) => {
         }],
     });
     if (!user) {
-        res.status(400)
+        res.status(404)
         throw new Error('User not found!')
     }
     const {

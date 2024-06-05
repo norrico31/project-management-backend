@@ -27,7 +27,7 @@ const getRole = AsyncHandler(async (req, res) => {
     const roleId = req.params.id
     const role = await Role.findByPk(roleId)
     if (!role) {
-        res.status(400)
+        res.status(404)
         throw new Error('Role not found!')
     } 
     res.json({data: role})
@@ -52,7 +52,7 @@ const updateRole = AsyncHandler(async (req, res) => {
     const {name, description} = req.body
     const role = await Role.findByPk(roleId)
     if (!role) {
-        res.status(400)
+        res.status(404)
         throw new Error('Role not found!')
     }
     role.name = name
