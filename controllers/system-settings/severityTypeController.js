@@ -1,72 +1,78 @@
+import { Op } from 'sequelize';
+import AsyncHandler  from 'express-async-handler';
 import Models from '../../models/index.js'
 const { SeverityType } = Models;
 
 // GET
 // ALL SEVERITY TYPES
-async function getSeverityTypes(req, res) {
-    try {
-        const severityTypes = await SeverityType.findAll()
-        return res.json({message: 'Success', data: severityTypes})
-    } catch (error) {
-        return error
+const getSeverityTypes = AsyncHandler(async (req, res) => {
+    const { search = '' } = req.query;
+    const query = {
+        ...(search !== '') ? {
+            where: {
+                [Op.or]:[
+                    { name: { [Op.like]: `%${search}%` } },
+                    { description: { [Op.like]: `%${search}%` } },
+                ]
+            }
+        } : {}
     }
-}
+    const severityTypes = await SeverityType.findAll(query)
+    return res.json({message: 'Success', data: severityTypes})
+})
 
 // GET
 // SINGLE SEVERITY TYPE
-async function getSeverityType(req, res) {
-    try {
-        const severityTypeId = req.body.id
-        const severityType = await SeverityType.findByPk(severityTypeId)
-        if (!severityType) return res.json({message: 'Severity type not found!', })
-        return res.json({message: 'Success', data: severityType})
-    } catch (error) {
-        return error
+const getSeverityType = AsyncHandler(async (req, res) => {
+    const severityTypeId = req.params.id
+    const data = await SeverityType.findByPk(severityTypeId)
+    if (!data) {
+        res.status(404)
+        throw new Error('Severity type not found!')
     }
-}
+    return res.json({message: 'Success', data})
+})
 
 // POST
 // CREATE SINGLE SEVERITY TYPE
-async function createSeverityType(req, res) {
+const createSeverityType = AsyncHandler(async (req, res) => {
     const {name, description} = req.body
-    try {
-        const createdSeverityType = SeverityType.create({name, description})
-        return res.json({message: 'Created severityType successfully', data: createdSeverityType})
-    } catch (error) {
-        // handle validation for name
-        return error
+    if (!name) {
+        res.status(400)
+        throw new Error('Please enter severity type name')
     }
-}
+    const data = await SeverityType.create({name, description})
+    return res.json({message: 'Create Severity Type Successfully', data})
+})
 
 // PUT
 // UPDATE SINGLE SEVERITY TYPE
-async function updateSeverityType(req, res) {
+const updateSeverityType = AsyncHandler(async (req, res) => {
     const severityTypeId = req.params.id
     const {name, description} = req.body
-    try {
-        const severityType = await SeverityType.findByPk(severityTypeId)
-        if (!severityType) return res.json({message: 'Severity type not found!'})
-        severityType.name = name
-        severityType.description = description
-        const updateSeverityType = await severityType.save()
-        return res.json({message: 'Update severityType successfully', data: updateSeverityType})
-    } catch (error) {
-        // handle validation for name
-        return error
+    let data = await SeverityType.findByPk(severityTypeId)
+    if (!data) {
+        res.status(404)
+        throw new Error('Severity type not found!')
     }
-}
+    data.name = name
+    data.description = description
+    data = await data.save()
+    return res.json({message: 'Update Severity Type Successfully', data})
+})
 
 // DELETE
 // SINGLE SEVERITY TYPE
-async function deleteSeverityType(req, res) {
-    try {
-        const severityTypeId = req.params.id
-        const deletedSeverityType = await SeverityType.destroy({where: {id: severityTypeId}},)
-        return res.json({message: 'Delete severityType successfully', data: deletedSeverityType})
-    } catch (error) {
-        return error
+const deleteSeverityType = AsyncHandler(async (req, res) => {
+    const severityTypeId = req.params.id
+    let data = await SeverityType.findByPk(severityTypeId)
+    if (!data) {
+        res.status(404)
+        throw new Error('Severity type not found!')
     }
-}
+    data = await data.destroy()
+    return res.json({message: 'Delete Severity Type Successfully', data})
+})
 
 export {
     getSeverityTypes,
