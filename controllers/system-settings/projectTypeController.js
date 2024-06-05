@@ -1,72 +1,77 @@
+import AsyncHandler  from 'express-async-handler';
 import Models from '../../models/index.js'
 const { ProjectType } = Models;
 
 // GET
 // ALL PROJECT TYPES
-async function getProjectTypes(req, res) {
-    try {
-        const projectTypes = await ProjectType.findAll()
-        return res.json({message: 'Success', data: projectTypes})
-    } catch (error) {
-        return error
+const getProjectTypes = AsyncHandler(async (req, res) => {
+    const { search = '' } = req.query;
+    const query = {
+        ...(search !== '') ? {
+            where: {
+                [Op.or]:[
+                    { name: { [Op.like]: `%${search}%` } },
+                    { description: { [Op.like]: `%${search}%` } },
+                ]
+            }
+        } : {}
     }
-}
+    const data = await ProjectType.findAll(query)
+    return res.json({message: 'Success', data})
+})
 
 // GET
 // SINGLE PROJECT TYPE
-async function getProjectType(req, res) {
-    try {
-        const projectTypeId = req.body.id
-        const projectType = await ProjectType.findByPk(projectTypeId)
-        if (!projectType) return res.json({message: 'Project type not found!', })
-        return res.json({message: 'Success', data: projectType})
-    } catch (error) {
-        return error
+const getProjectType = AsyncHandler(async (req, res) => {
+    const projectTypeId = req.params.id
+    const data = await ProjectType.findByPk(projectTypeId)
+    if (!data) {
+        res.status(404)
+        throw new Error('Project type not found!')
     }
-}
+    return res.json({message: 'Success', data})
+})
 
 // POST
 // CREATE SINGLE PROJECT TYPE
-async function createProjectType(req, res) {
+const createProjectType = AsyncHandler(async (req, res) => {
     const {name, description} = req.body
-    try {
-        const createdProjectType = ProjectType.create({name, description})
-        return res.json({message: 'Created project type successfully', data: createdProjectType})
-    } catch (error) {
-        // handle validation for name
-        return error
+    if (!name) {
+        res.status(400)
+        throw new Error('Please enter project type name')
     }
-}
+    const data = await ProjectType.create({name, description})
+    return res.json({message: 'Created project type successfully', data})
+})
 
 // PUT
 // UPDATE SINGLE PROJECT TYPE
-async function updateProjectType(req, res) {
+const updateProjectType = AsyncHandler(async (req, res) => {
     const projectTypeId = req.params.id
     const {name, description} = req.body
-    try {
-        const projectType = await ProjectType.findByPk(projectTypeId)
-        if (!projectType) return res.json({message: 'Project type not found!'})
-        projectType.name = name
-        projectType.description = description
-        const updateProjectType = await projectType.save()
-        return res.json({message: 'Update project type successfully', data: updateProjectType})
-    } catch (error) {
-        // handle validation for name
-        return error
+    let data = await ProjectType.findByPk(projectTypeId)
+    if (!data) {
+        res.status(404)
+        throw new Error('Project type not found!')
     }
-}
+    data.name = name
+    data.description = description
+    data = await data.save()
+    return res.json({message: 'Update project type successfully', data})
+})
 
 // DELETE
 // SINGLE PROJECT TYPE
-async function deleteProjectType(req, res) {
-    try {
-        const projectTypeId = req.params.id
-        const deletedProjectType = await ProjectType.destroy({where: {id: projectTypeId}},)
-        return res.json({message: 'Delete project type successfully', data: deletedProjectType})
-    } catch (error) {
-        return error
+const deleteProjectType = AsyncHandler(async (req, res) => {
+    const projectTypeId = req.params.id
+    let data = await ProjectType.findByPk(projectTypeId)
+    if (!data) {
+        res.status(404)
+        throw new Error('Project type not found!')
     }
-}
+    data = await data.destroy()
+    return res.json({message: 'Delete Project Type Successfully', data})
+})
 
 export {
     getProjectTypes,

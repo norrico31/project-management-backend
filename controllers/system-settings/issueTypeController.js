@@ -5,17 +5,13 @@ const { IssueType } = Models
 // GET
 // ALL ISSUE TYPES
 const getIssueTypes = AsyncHandler(async (req, res) => {
-    const { search = ''} = req.query;
+    const { search = '' } = req.query;
     const query = {
         ...(search !== '') ? {
             where: {
                 [Op.or]:[
-                    { email: { [Op.like]: `%${search}%` } },
-                    { first_name: { [Op.like]: `%${search}%` } },
-                    { last_name: { [Op.like]: `%${search}%` } },
-                    { middle_name: { [Op.like]: `%${search}%` } },
-                    { age: { [Op.like]: `%${search}%` } },
-                    { phone_no: { [Op.like]: `%${search}%` } },
+                    { name: { [Op.like]: `%${search}%` } },
+                    { description: { [Op.like]: `%${search}%` } },
                 ]
             }
         } : {}
