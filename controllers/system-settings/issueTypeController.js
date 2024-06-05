@@ -1,3 +1,4 @@
+import { Op } from 'sequelize';
 import AsyncHandler  from 'express-async-handler';
 import Models from '../../models/index.js'
 const { IssueType } = Models
