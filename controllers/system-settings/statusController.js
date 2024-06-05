@@ -1,72 +1,78 @@
+import { Op } from 'sequelize';
+import AsyncHandler  from 'express-async-handler';
 import Models from '../../models/index.js'
 const { Statuses } = Models;
 
 // GET
 // ALL STATUSES
-async function getStatuses(req, res) {
-    try {
-        const statuses = await Statuses.findAll()
-        return res.json({message: 'Success', data: statuses})
-    } catch (error) {
-        return error
+const getStatuses = AsyncHandler(async (req, res) => {
+    const { search = '' } = req.query;
+    const query = {
+        ...(search !== '') ? {
+            where: {
+                [Op.or]:[
+                    { name: { [Op.like]: `%${search}%` } },
+                    { description: { [Op.like]: `%${search}%` } },
+                ]
+            }
+        } : {}
     }
-}
+    const data = await Statuses.findAll()
+    return res.json({message: 'Success', data})
+})
 
 // GET
 // SINGLE STATUS
-async function getStatus(req, res) {
-    try {
-        const statusId = req.body.id
-        const status = await Statuses.findByPk(statusId)
-        if (!status) return res.json({message: 'Status not found!', })
-        return res.json({message: 'Success', data: status})
-    } catch (error) {
-        return error
+const getStatus = AsyncHandler(async (req, res) => {
+    const statusId = req.params.id
+    const data = await Statuses.findByPk(statusId)
+    if (!data) {
+        res.status(404)
+        throw new Error('Status not found!')
     }
-}
+    return res.json({message: 'Success', data})
+})
 
 // POST
 // CREATE SINGLE STATUS
-async function createStatus(req, res) {
+const createStatus = AsyncHandler(async (req, res) => {
     const {name, description} = req.body
-    try {
-        const createdStatus = Statuses.create({name, description})
-        return res.json({message: 'Created status successfully', data: createdStatus})
-    } catch (error) {
-        // handle validation for name
-        return error
+    if (!name) {
+        res.status(400)
+        throw new Error('Please enter status name')
     }
-}
+    const data = await Statuses.create({name, description})
+    return res.json({message: 'Create Status Successfully', data})
+})
 
 // PUT
 // UPDATE SINGLE STATUS
-async function updateStatus(req, res) {
+const updateStatus = AsyncHandler(async (req, res) => {
     const statusId = req.params.id
     const {name, description} = req.body
-    try {
-        const status = await Statuses.findByPk(statusId)
-        if (!status) return res.json({message: 'Status not found!'})
-        status.name = name
-        status.description = description
-        const updateStatus = await status.save()
-        return res.json({message: 'Update status successfully', data: updateStatus})
-    } catch (error) {
-        // handle validation for name
-        return error
+    let data = await Statuses.findByPk(statusId)
+    if (!data) {
+        res.status(404)
+        throw new Error('Status not found!')
     }
-}
+    data.name = name
+    data.description = description
+    data = await data.save()
+    return res.json({message: 'Update Status Successfully', data})
+})
 
 // DELETE
 // SINGLE STATUS
-async function deleteStatus(req, res) {
-    try {
-        const statusId = req.params.id
-        const deletedStatus = await Statuses.destroy({where: {id: statusId}},)
-        return res.json({message: 'Delete status successfully', data: deletedStatus})
-    } catch (error) {
-        return error
+const deleteStatus = AsyncHandler(async (req, res) => {
+    const statusId = req.params.id
+    let data = await Statuses.findByPk(statusId)
+    if (!data) {
+        res.status(404)
+        throw new Error('Status not found!')
     }
-}
+    data = await data.destroy()
+    return res.json({message: 'Delete Status Successfully', data})
+})
 
 export {
     getStatuses,
