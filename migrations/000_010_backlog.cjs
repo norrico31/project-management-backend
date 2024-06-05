@@ -15,7 +15,7 @@ module.exports = {
                 model: 'issue_types',
                 key: 'id',
             },
-            onUpdate: 'CASCADE',
+            onUpdate: 'ON UPDATE',
             onDelete: 'SET NULL'
         },
         severity_type_id: {
@@ -25,7 +25,7 @@ module.exports = {
                 model: 'severity_types',
                 key: 'id',
             },
-            onUpdate: 'CASCADE',
+            onUpdate: 'ON UPDATE',
             onDelete: 'SET NULL'
         },
         qa_reference: {
@@ -35,7 +35,7 @@ module.exports = {
                 model: 'users',
                 key: 'id',
             },
-            onUpdate: 'CASCADE',
+            onUpdate: 'ON UPDATE',
             onDelete: 'SET NULL'
         },
         status_id: {
@@ -44,7 +44,7 @@ module.exports = {
                 model: 'statuses',
                 key: 'id',
             },
-            onUpdate: 'CASCADE',
+            onUpdate: 'ON UPDATE',
             onDelete: 'SET NULL'
         },
         date_added: {
@@ -62,7 +62,7 @@ module.exports = {
                     model: 'users',
                     key: 'id',
                 },
-                onUpdate: 'CASCADE',
+                onUpdate: 'ON UPDATE',
                 onDelete: 'SET NULL'
         },
         completed_by: {
@@ -72,20 +72,18 @@ module.exports = {
                     model: 'users',
                     key: 'id',
                 },
-                onUpdate: 'CASCADE',
+                onUpdate: 'ON UPDATE',
                 onDelete: 'SET NULL'
         },
         device_id: {
-                // type: Sequelize.UUID,
-                // allowNull: true,
-                // references: {
-                //     model: 'Device',
-                //     key: 'id',
-                // },
-                // onUpdate: 'CASCADE',
-                // onDelete: 'SET NULL'
-                type: Sequelize.STRING,
-                allowNull: false,
+            type: Sequelize.UUID,
+            allowNull: true,
+            references: {
+                model: 'Device',
+                key: 'id',
+            },
+            onUpdate: 'ON UPDATE',
+            onDelete: 'SET NULL'
         },
         url: {
             type: Sequelize.STRING,

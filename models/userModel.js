@@ -14,7 +14,7 @@ export default (sequelize, DataTypes) => {
                 model: 'Role',
                 key: 'id',
             },
-            onUpdate: 'CASCADE',
+            onUpdate: 'ON UPDATE',
             onDelete: 'SET NULL'
         },
         first_name: {
@@ -35,7 +35,7 @@ export default (sequelize, DataTypes) => {
         email: {
             type: DataTypes.STRING,
             unique: true,
-            allowNull: false,
+            allowNull: true,
             validate: {
                 isEmail: true
             }

@@ -13,7 +13,6 @@ const getRoles = AsyncHandler(async (req, res) => {
                 [Op.or]:[
                     { name: { [Op.like]: `%${search}%` } },
                     { description: { [Op.like]: `%${search}%` } },
-                    // Add more columns as needed
                   ]
             }
         } : {}
@@ -29,7 +28,7 @@ const getRole = AsyncHandler(async (req, res) => {
     const role = await Role.findByPk(roleId)
     if (!role) {
         res.status(400)
-        throw new Error('User not found!')
+        throw new Error('Role not found!')
     } 
     res.json({data: role})
 })

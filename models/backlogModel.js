@@ -9,7 +9,7 @@ export default (sequelize, DataTypes) => {
                 model: 'issue_type',
                 key: 'id',
             },
-            onUpdate: 'CASCADE',
+            onUpdate: 'ON UPDATE',
             onDelete: 'SET NULL'
         },
         severity_type_id: {
@@ -19,7 +19,7 @@ export default (sequelize, DataTypes) => {
                 model: 'severity_type',
                 key: 'id',
             },
-            onUpdate: 'CASCADE',
+            onUpdate: 'ON UPDATE',
             onDelete: 'SET NULL'
         },
         qa_reference: {
@@ -29,7 +29,7 @@ export default (sequelize, DataTypes) => {
                 model: 'user',
                 key: 'id',
             },
-            onUpdate: 'CASCADE',
+            onUpdate: 'ON UPDATE',
             onDelete: 'SET NULL'
         },
         status_id: {
@@ -38,7 +38,7 @@ export default (sequelize, DataTypes) => {
                 model: 'statuses',
                 key: 'id',
             },
-            onUpdate: 'CASCADE',
+            onUpdate: 'ON UPDATE',
             onDelete: 'SET NULL'
         },
         date_added: {
@@ -56,7 +56,7 @@ export default (sequelize, DataTypes) => {
                     model: 'user',
                     key: 'id',
                 },
-                onUpdate: 'CASCADE',
+                onUpdate: 'ON UPDATE',
                 onDelete: 'SET NULL'
         },
         completed_by: {
@@ -66,7 +66,7 @@ export default (sequelize, DataTypes) => {
                     model: 'user',
                     key: 'id',
                 },
-                onUpdate: 'CASCADE',
+                onUpdate: 'ON UPDATE',
                 onDelete: 'SET NULL'
         },
         device_id: {
@@ -76,7 +76,7 @@ export default (sequelize, DataTypes) => {
                 model: 'device',
                 key: 'id',
             },
-            onUpdate: 'CASCADE',
+            onUpdate: 'ON UPDATE',
             onDelete: 'SET NULL'
         },
         url: {

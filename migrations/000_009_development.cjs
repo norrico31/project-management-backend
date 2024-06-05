@@ -38,7 +38,7 @@ module.exports = {
                 model: 'Statuses',
                 key: 'id',
             },
-            onUpdate: 'CASCADE',
+            onUpdate: 'ON UPDATE',
             onDelete: 'SET NULL'
         },
         createdAt: {
