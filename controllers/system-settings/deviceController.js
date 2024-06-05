@@ -1,5 +1,5 @@
-import Models from '../../models/index.js'
 import AsyncHandler  from 'express-async-handler';
+import Models from '../../models/index.js'
 const { Device } = Models
 
 // GET
@@ -40,12 +40,12 @@ const getDevice = AsyncHandler(async (req, res) => {
 // CREATE SINGLE DEVICE
 const createDevice = AsyncHandler(async (req, res) => {
     const {name, description} = req.body
-    const createdDevice = await Device.create({name, description})
-    if (!createdDevice) {
+    if (!name) {
         res.status(400)
-        throw new Error('Please enter valid device name')
+        throw new Error('Please enter device name')
     }
-    res.json({message: 'Success', data: createdDevice})
+    const data = await Device.create({name, description})
+    res.json({message: 'Success', data})
 })
 
 // PUT
@@ -68,12 +68,13 @@ const updateDevice = AsyncHandler(async (req, res) => {
 // SINGLE DEVICE
 const deleteDevice = AsyncHandler(async (req, res) => {
     const deviceId = req.params.id
-    const deletedDevice = await Device.findByPk(deviceId)
-    if (!deletedDevice) {
+    let data = await Device.findByPk(deviceId)
+    if (!data) {
         res.status(404)
         throw new Error('Device not found!')
     }
-    res.json({message: 'Delete Device Successfully!'})
+    data = await data.destroy()
+    res.json({message: 'Delete Device Successfully!', data})
 })
 
 export {

@@ -1,72 +1,83 @@
+import AsyncHandler  from 'express-async-handler';
 import Models from '../../models/index.js'
 const { IssueType } = Models
 
 // GET
 // ALL ISSUE TYPES
-async function getIssueTypes(req, res) {
-    try {
-        const issueTypes = await IssueType.findAll()
-        return res.json({message: 'Success', data: issueTypes})
-    } catch (error) {
-        return error
+const getIssueTypes = AsyncHandler(async (req, res) => {
+    const { search = ''} = req.query;
+    const query = {
+        ...(search !== '') ? {
+            where: {
+                [Op.or]:[
+                    { email: { [Op.like]: `%${search}%` } },
+                    { first_name: { [Op.like]: `%${search}%` } },
+                    { last_name: { [Op.like]: `%${search}%` } },
+                    { middle_name: { [Op.like]: `%${search}%` } },
+                    { age: { [Op.like]: `%${search}%` } },
+                    { phone_no: { [Op.like]: `%${search}%` } },
+                ]
+            }
+        } : {}
     }
-}
+    const issueTypes = await IssueType.findAll(query)
+    return res.json({message: 'Success', data: issueTypes})
+})
 
 // GET
 // SINGLE ISSUE TYPE
-async function getIssueType(req, res) {
-    try {
-        const issueTypeId = req.body.id
-        const issueType = await IssueType.findByPk(issueTypeId)
-        if (!issueType) return res.json({message: 'Issue type not found!', })
-        return res.json({message: 'Success', data: issueType})
-    } catch (error) {
-        return error
+const getIssueType = AsyncHandler(async (req, res) => {
+    const issueTypeId = req.params.id
+    const data = await IssueType.findByPk(issueTypeId)
+    if (!data) {
+        res.status(404)
+        throw new Error('Issue type not found!')
     }
-}
+    return res.json({message: 'Sucess', data})
+})
 
 // POST
 // CREATE SINGLE ISSUE TYPE
-async function createIssueType(req, res) {
+const createIssueType = AsyncHandler(async (req, res) => {
     const {name, description} = req.body
-    try {
-        const createdIssueType = IssueType.create({name, description})
-        return res.json({message: 'Created issue type successfully', data: createdIssueType})
-    } catch (error) {
-        // handle validation for name
-        return error
+    if (!name) {
+        res.status(400)
+        throw new Error('Please enter issue type name')
     }
-}
+    const data = await IssueType.create({name, description})
+    return res.json({message: 'Create Issue Type Successfully', data})
+
+})
 
 // PUT
 // UPDATE SINGLE ISSUE TYPE
-async function updateIssueType(req, res) {
+const updateIssueType = AsyncHandler(async (req, res) => {
     const issueTypeId = req.params.id
     const {name, description} = req.body
-    try {
-        const issueType = await IssueType.findByPk(issueTypeId)
-        if (!issueType) return res.json({message: 'Issue type not found!'})
-        issueType.name = name
-        issueType.description = description
-        const updateIssueType = await issueType.save()
-        return res.json({message: 'Update issue type successfully', data: updateIssueType})
-    } catch (error) {
-        // handle validation for name
-        return error
+    let data = await IssueType.findByPk(issueTypeId)
+    if (!data) {
+        res.status(404)
+        throw new Error('Issue type not found!')
     }
-}
+    data.name = name
+    data.description = description
+    data = await data.save()
+    return res.json({message: 'Update Issue Type Successfully', data})
+})
 
 // DELETE
 // SINGLE ISSUE TYPE
-async function deleteIssueType(req, res) {
-    try {
-        const issueTypeId = req.params.id
-        const deletedIssueType = await IssueType.destroy({where: {id: issueTypeId}},)
-        return res.json({message: 'Delete issue type successfully', data: deletedIssueType})
-    } catch (error) {
-        return error
+const deleteIssueType = AsyncHandler(async (req, res) => {
+    const issueTypeId = req.params.id
+    let data = await IssueType.findByPk(issueTypeId)
+    if (!data) {
+        res.status(404)
+        throw new Error('Issue type not found!')
     }
-}
+    data = await data.destroy()
+    return res.json({message: 'Delete issue type successfully', data})
+
+})
 
 export {
     getIssueTypes,

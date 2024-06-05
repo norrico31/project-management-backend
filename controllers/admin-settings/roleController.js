@@ -65,10 +65,10 @@ const updateRole = AsyncHandler(async (req, res) => {
 // SINGLE ROLE
 const deleteRole = AsyncHandler(async (req, res) => {
     const roleId = req.params.id
-    const role = await Role.findByPk(roleId)
-    if (role) {
-        await role.destroy()
-        res.json({message: 'Delete Role Successfully'})
+    let data = await Role.findByPk(roleId)
+    if (data) {
+        data = await data.destroy()
+        res.json({message: 'Delete Role Successfully', data})
     } else {
         res.status(404)
         throw new Error('Role not found!')
