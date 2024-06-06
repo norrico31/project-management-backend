@@ -9,7 +9,8 @@ import {
     deleteBacklog,
 } from '../controllers/backlogController.js'
 
-router.route('/').get(protect, getBacklogs).post(protect, createBacklog)
-router.route('/:id').get(protect, getBacklog).put(protect, updateBacklog).delete(protect, deleteBacklog)
-
+router.route('/').get(protect, getBacklogs)
+router.route('/:id').get(protect, getBacklog).delete(protect, deleteBacklog)
+router.post('/create/:id', protect, createBacklog)
+router.put('/update/id',protect, updateBacklog)
 export default router
