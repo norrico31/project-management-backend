@@ -48,7 +48,7 @@ const getDevelopment = AsyncHandler(async (req, res) => {
 // POST
 // CREATE SINGLE DEVELOPMENT
 const createDevelopment = AsyncHandler(async (req, res) => {
-    const {projectId} = req.params;
+    const projectId = req.params.id;
     if (!projectId) {
         res.status(400)
         throw new Error('Please enter project!')
@@ -114,11 +114,12 @@ const updateDevelopment = AsyncHandler(async (req, res) => {
 // SINGLE DEVELOPMENT
 const deleteDevelopment = AsyncHandler(async (req, res) => {
     const devId = req.params.id
-    const data = await Models.Development.findByPk(devId)
+    let data = await Models.Development.findByPk(devId)
     if (!data) {
         res.status(404)
         throw new Error('Development not found!')
     }
+    data = await data.destroy()
     return res.json({message: 'Delete Development Successfully!', data})
 })
 

@@ -160,6 +160,7 @@ const deleteBacklog = AsyncHandler(async (req, res) => {
         res.status(404)
         throw new Error('Backlog not found!')
     }
+    data = await data.destroy()
     return res.json({message: 'Delete Backlog Successfully!', data})
 })
 
