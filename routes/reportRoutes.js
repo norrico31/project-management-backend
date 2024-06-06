@@ -9,7 +9,9 @@ import {
     deleteReport,
 } from '../controllers/reportController.js'
 
-router.route('/').get(protect, getReports).post(protect, createReport)
-router.route('/:id').get(protect, getReport).put(protect, updateReport).delete(protect, deleteReport)
+router.route('/').get(protect, getReports)
+router.route('/:id').get(protect, getReport).delete(protect, deleteReport)
+router.post('/create/:id', protect, createReport)
+router.put('/update/id',protect, updateReport)
 
 export default router
