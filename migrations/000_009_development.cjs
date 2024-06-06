@@ -6,8 +6,9 @@ module.exports = {
         id: {
             primaryKey: true,
             type: Sequelize.UUID,
-            defaultValue: Sequelize.UUIDV4
-          },
+            defaultValue: Sequelize.UUIDV4,
+            allowNull: false,
+        },
         name: {
             type: Sequelize.STRING,
             allowNull: false,
@@ -38,7 +39,7 @@ module.exports = {
                 model: 'Statuses',
                 key: 'id',
             },
-            onUpdate: 'ON UPDATE',
+            onUpdate: 'CASCADE',
             onDelete: 'SET NULL'
         },
         createdAt: {

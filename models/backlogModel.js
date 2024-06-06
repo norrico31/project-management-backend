@@ -2,6 +2,13 @@
 
 export default (sequelize, DataTypes) => {
     const Development = sequelize.define('backlogs', {
+        // TODO project_id allowaNull: true
+        id: {
+            primaryKey: true,
+            type: DataTypes.UUID,
+            defaultValue: DataTypes.UUIDV4,
+            allowNull: false,
+        },
         issue_type_id: {
             type: DataTypes.UUID,
             allowNull: true,
@@ -9,7 +16,7 @@ export default (sequelize, DataTypes) => {
                 model: 'issue_type',
                 key: 'id',
             },
-            onUpdate: 'ON UPDATE',
+            onUpdate: 'CASCADE',
             onDelete: 'SET NULL'
         },
         severity_type_id: {
@@ -19,7 +26,7 @@ export default (sequelize, DataTypes) => {
                 model: 'severity_type',
                 key: 'id',
             },
-            onUpdate: 'ON UPDATE',
+            onUpdate: 'CASCADE',
             onDelete: 'SET NULL'
         },
         qa_reference: {
@@ -29,7 +36,7 @@ export default (sequelize, DataTypes) => {
                 model: 'user',
                 key: 'id',
             },
-            onUpdate: 'ON UPDATE',
+            onUpdate: 'CASCADE',
             onDelete: 'SET NULL'
         },
         status_id: {
@@ -38,7 +45,7 @@ export default (sequelize, DataTypes) => {
                 model: 'statuses',
                 key: 'id',
             },
-            onUpdate: 'ON UPDATE',
+            onUpdate: 'CASCADE',
             onDelete: 'SET NULL'
         },
         date_added: {
@@ -47,16 +54,16 @@ export default (sequelize, DataTypes) => {
         },
         date_fixed: {
             type: DataTypes.DATE,
-            allowNull: false,
+            allowNull: true,
         },
         fixed_by: {
                 type: DataTypes.UUID,
-                allowNull: false,
+                allowNull: true,
                 references: {
                     model: 'user',
                     key: 'id',
                 },
-                onUpdate: 'ON UPDATE',
+                onUpdate: 'CASCADE',
                 onDelete: 'SET NULL'
         },
         completed_by: {
@@ -66,7 +73,7 @@ export default (sequelize, DataTypes) => {
                     model: 'user',
                     key: 'id',
                 },
-                onUpdate: 'ON UPDATE',
+                onUpdate: 'CASCADE',
                 onDelete: 'SET NULL'
         },
         device_id: {
@@ -76,7 +83,7 @@ export default (sequelize, DataTypes) => {
                 model: 'device',
                 key: 'id',
             },
-            onUpdate: 'ON UPDATE',
+            onUpdate: 'CASCADE',
             onDelete: 'SET NULL'
         },
         url: {

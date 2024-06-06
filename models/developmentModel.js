@@ -38,7 +38,7 @@ export default (sequelize, DataTypes) => {
                 model: 'statuses',
                 key: 'id',
             },
-            onUpdate: 'ON UPDATE',
+            onUpdate: 'CASCADE',
             onDelete: 'SET NULL'
         },
     }, {

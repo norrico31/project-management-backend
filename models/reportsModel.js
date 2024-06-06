@@ -14,7 +14,7 @@ export default (sequelize, DataTypes) => {
                 model: 'User',
                 key: 'id',
             },
-            onUpdate: 'ON UPDATE',
+            onUpdate: 'CASCADE',
             onDelete: 'SET NULL'
         },
         date: {

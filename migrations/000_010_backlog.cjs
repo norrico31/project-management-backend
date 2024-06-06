@@ -6,8 +6,9 @@ module.exports = {
         id: {
             primaryKey: true,
             type: Sequelize.UUID,
-            defaultValue: Sequelize.UUIDV4
-          },
+            defaultValue: Sequelize.UUIDV4,
+            allowNull: false,
+        },
         issue_type_id: {
             type: Sequelize.UUID,
             allowNull: true,
@@ -15,7 +16,7 @@ module.exports = {
                 model: 'issue_types',
                 key: 'id',
             },
-            onUpdate: 'ON UPDATE',
+            onUpdate: 'CASCADE',
             onDelete: 'SET NULL'
         },
         severity_type_id: {
@@ -25,7 +26,7 @@ module.exports = {
                 model: 'severity_types',
                 key: 'id',
             },
-            onUpdate: 'ON UPDATE',
+            onUpdate: 'CASCADE',
             onDelete: 'SET NULL'
         },
         qa_reference: {
@@ -35,7 +36,7 @@ module.exports = {
                 model: 'users',
                 key: 'id',
             },
-            onUpdate: 'ON UPDATE',
+            onUpdate: 'CASCADE',
             onDelete: 'SET NULL'
         },
         status_id: {
@@ -44,7 +45,7 @@ module.exports = {
                 model: 'statuses',
                 key: 'id',
             },
-            onUpdate: 'ON UPDATE',
+            onUpdate: 'CASCADE',
             onDelete: 'SET NULL'
         },
         date_added: {
@@ -62,7 +63,7 @@ module.exports = {
                     model: 'users',
                     key: 'id',
                 },
-                onUpdate: 'ON UPDATE',
+                onUpdate: 'CASCADE',
                 onDelete: 'SET NULL'
         },
         completed_by: {
@@ -72,7 +73,7 @@ module.exports = {
                     model: 'users',
                     key: 'id',
                 },
-                onUpdate: 'ON UPDATE',
+                onUpdate: 'CASCADE',
                 onDelete: 'SET NULL'
         },
         device_id: {
@@ -82,7 +83,7 @@ module.exports = {
                 model: 'Device',
                 key: 'id',
             },
-            onUpdate: 'ON UPDATE',
+            onUpdate: 'CASCADE',
             onDelete: 'SET NULL'
         },
         url: {

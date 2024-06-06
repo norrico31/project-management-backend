@@ -17,7 +17,7 @@ const getStatuses = AsyncHandler(async (req, res) => {
             }
         } : {}
     }
-    const data = await Statuses.findAll()
+    const data = await Statuses.findAll(query)
     return res.json({message: 'Success', data})
 })
 

@@ -15,7 +15,7 @@ module.exports = {
           model: 'Roles',
           key: 'id',
         },
-        onUpdate: 'ON UPDATE',
+        onUpdate: 'CASCADE',
         onDelete: 'SET NULL'
       },
       first_name: {

@@ -14,7 +14,7 @@ module.exports = {
                 model: 'Users',
                 key: 'id',
             },
-            onUpdate: 'ON UPDATE',
+            onUpdate: 'CASCADE',
             onDelete: 'SET NULL'
         },
         date: {

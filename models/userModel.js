@@ -9,12 +9,12 @@ export default (sequelize, DataTypes) => {
             allowNull: false,
         },
         role_id: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.UUID,
             references: {
                 model: 'Role',
                 key: 'id',
             },
-            onUpdate: 'ON UPDATE',
+            onUpdate: 'CASCADE',
             onDelete: 'SET NULL'
         },
         first_name: {
