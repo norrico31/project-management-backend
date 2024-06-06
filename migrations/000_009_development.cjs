@@ -11,11 +11,9 @@ module.exports = {
         },
         name: {
             type: Sequelize.STRING,
-            allowNull: false,
         },
         user_id: {
             type: Sequelize.JSON,
-            allowNull: true,
         },
         start_date: {
             type: Sequelize.DATE,
@@ -23,7 +21,6 @@ module.exports = {
         },
         finish_date: {
             type: Sequelize.DATE,
-            allowNull: false,
         },
         deadline: {
             type: Sequelize.DATE,
@@ -31,7 +28,6 @@ module.exports = {
         },
         duration: {
             type: Sequelize.INTEGER,
-            allowNull: false,
         },
         status_id: {
             type: Sequelize.UUID,

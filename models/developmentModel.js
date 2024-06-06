@@ -10,11 +10,9 @@ export default (sequelize, DataTypes) => {
         },
         name: {
             type: DataTypes.STRING,
-            allowNull: false,
         },
         user_id: {
             type: DataTypes.JSON,
-            allowNull: true,
         },
         start_date: {
             type: DataTypes.DATE,
@@ -22,7 +20,6 @@ export default (sequelize, DataTypes) => {
         },
         finish_date: {
             type: DataTypes.DATE,
-            allowNull: false,
         },
         deadline: {
             type: DataTypes.DATE,
@@ -30,10 +27,9 @@ export default (sequelize, DataTypes) => {
         },
         duration: {
             type: DataTypes.INTEGER,
-            allowNull: false,
         },
         status_id: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.UUID,
             references: {
                 model: 'statuses',
                 key: 'id',
