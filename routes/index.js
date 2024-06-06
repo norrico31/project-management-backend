@@ -12,6 +12,7 @@ import statusRoutes from './system-settings/statusRoutes.js';
 import deviceRoutes from './system-settings/deviceRoutes.js';
 import reportRoutes from './reportRoutes.js';
 import backlogRoutes from './backlogRoutes.js';
+import developmentRoutes from './developmentRoutes.js';
 
 const VERSION = process.env.APP_VERSION
 
@@ -25,6 +26,7 @@ export default function Routes(app) {
     
     app.use(createRoute('/reports'), reportRoutes);
     app.use(createRoute('/backlogs'), backlogRoutes);
+    app.use(createRoute('/developments'), developmentRoutes);
 
     app.use(createRoute('/issue-types'), issueTypeRoutes);
     app.use(createRoute('/project-types'), projectTypeRoutes);
