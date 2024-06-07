@@ -44,8 +44,8 @@ const getProjects = AsyncHandler(async (req, res) => {
             }
         } : {}
     }
-    const data = await Models.Project.Backlog.findAll(query)
-    return res.json({message: 'Success', data})
+    const data = await Models.Project.findAll(query)
+    return res.json({ message: 'Success', data })
 })
 
 // GET
