@@ -17,17 +17,17 @@ const protect = async (req, res, next) => {
             req.user = user
             next()
         } catch (error) {
-            res.status(401).json({ message: 'Invalid token!' })
+            res.status(401).json({ error: 'Invalid token!' })
         }
     }
     if (!token) {
-        res.status(401).json({ message: 'Not authorized, no token' })
+        res.status(401).json({ error: 'Not authorized, no token' })
     }
 }
 
 const admin = async (req, res, next) => {
     if (req.user && req.user.isAdmin) return next()
-    return res.status(401).json({ message: 'Not authorized as an admin' })
+    return res.status(401).json({ error: 'Not authorized as an admin' })
 }
 
 export {
