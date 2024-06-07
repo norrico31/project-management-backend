@@ -9,6 +9,16 @@ export default (sequelize, DataTypes) => {
             defaultValue: DataTypes.UUIDV4,
             allowNull: false,
         },
+        project_id: {
+            type: DataTypes.UUID,
+            allowNull: true,
+            references: {
+                model: 'projects',
+                key: 'id',
+            },
+            onUpdate: 'CASCADE',
+            onDelete: 'SET NULL'
+        },
         issue_type_id: {
             type: DataTypes.UUID,
             allowNull: true,

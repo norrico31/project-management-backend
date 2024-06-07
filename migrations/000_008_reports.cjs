@@ -8,6 +8,16 @@ module.exports = {
             type: Sequelize.UUID,
             defaultValue: Sequelize.UUIDV4
         },
+        project_id: {
+            type: Sequelize.UUID,
+            allowNull: true,
+            references: {
+                model: 'projects',
+                key: 'id',
+            },
+            onUpdate: 'CASCADE',
+            onDelete: 'SET NULL'
+        },
         user_id: {
             type: Sequelize.UUID,
             references: {

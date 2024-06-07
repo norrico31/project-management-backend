@@ -24,6 +24,7 @@ import Report from './reportsModel.js';
 import Project from './projectModel.js';
 import Development from './developmentModel.js';
 import Backlog from './backlogModel.js';
+import Optimization from './optimizationsModel.js';
 
 // SYSTEM SETTINGS
 import IssueType from './issueTypeModel.js';
@@ -39,6 +40,7 @@ db.Project = Project(sequelize, Sequelize.DataTypes);
 db.Report = Report(sequelize, Sequelize.DataTypes);
 db.Development = Development(sequelize, Sequelize.DataTypes);
 db.Backlog = Backlog(sequelize, Sequelize.DataTypes);
+db.Optimization = Optimization(sequelize, Sequelize.DataTypes);
 
 db.IssueType = IssueType(sequelize, Sequelize.DataTypes);
 db.ProjectType = ProjectType(sequelize, Sequelize.DataTypes);
@@ -49,7 +51,7 @@ db.Device = Device(sequelize, Sequelize.DataTypes);
 
 
 // ==================
-//* EAGER LOADING
+//* ASSOCIATIONS
 // ==================
 
 // Role -> User
@@ -65,5 +67,7 @@ db.Development.belongsToMany(db.User, { through: 'DevelopmentUsers', sourceKey: 
 db.User.hasOne(db.Development, { through: 'DevelopmentUsers', sourceKey: 'id' });
 db.Development.belongsTo(db.Statuses, { foreignKey: 'status_id', sourceKey: 'id' });
 db.Statuses.hasOne(db.Development, { foreignKey: 'status_id', sourceKey: 'id' });
+
+// TODO: ASSOC FOR PROJECT AND OTHER MAIN MODULES
 
 export default db;
