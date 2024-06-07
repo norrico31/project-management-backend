@@ -10,6 +10,9 @@ import scheduleRoutes from './system-settings/scheduleRoutes.js';
 import severityTypeRoutes from './system-settings/severityTypeRoutes.js';
 import statusRoutes from './system-settings/statusRoutes.js';
 import deviceRoutes from './system-settings/deviceRoutes.js';
+
+// MAIN MODULES
+import projectRoutes from './projectRoutes.js';
 import reportRoutes from './reportRoutes.js';
 import backlogRoutes from './backlogRoutes.js';
 import developmentRoutes from './developmentRoutes.js';
@@ -24,6 +27,7 @@ export default function Routes(app) {
     app.use(createRoute('/roles'), roleRoutes);
     app.use(createRoute('/users'), userRoutes);
     
+    app.use(createRoute('/projects'), projectRoutes);
     app.use(createRoute('/reports'), reportRoutes);
     app.use(createRoute('/backlogs'), backlogRoutes);
     app.use(createRoute('/developments'), developmentRoutes);
