@@ -95,7 +95,7 @@ const updateReport = AsyncHandler(async (req, res) => {
     data.description = description
     data.actual_time_spent = actual_time_spent
     data = await data.save()
-    return res.json({message: 'Update Report Successfully!', data})
+    return res.json({ message: 'Update Report Successfully!', data })
 })
 
 // DELETE
