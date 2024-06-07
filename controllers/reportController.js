@@ -71,22 +71,6 @@ const createReport = AsyncHandler(async (req, res) => {
 
 // PUT
 // UPDATE SINGLE REPORT
-async function updateReport(req, res) {
-    
-    try {
-        const report = await Report.findByPk(reportId)
-        if (!report) return res.json({message: 'Report not found!'})
-        report.date = date
-        report.description = description
-        report.user_id = user_id
-        report.actual_time_spent = actual_time_spent
-        const updateReport = await report.save()
-        return res.json({message: 'Update report successfully', data: updateReport})
-    } catch (error) {
-        // handle validation for name
-        return error
-    }
-}
 const updateReport = AsyncHandler(async (req, res) => {
     const reportId = req.params.id
     if (!reportId) {

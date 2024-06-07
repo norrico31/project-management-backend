@@ -16,7 +16,7 @@ export default (sequelize, DataTypes) => {
         },
         lead_dev: {
             type: DataTypes.UUID,
-            allowNull: false,
+            allowNull: true,
             references: {
                 model: 'users',
                 key: 'id',

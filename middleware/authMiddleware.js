@@ -1,22 +1,22 @@
-import dotenv from 'dotenv'
+import 'dotenv'
+// dotenv.config()
 import jwt from 'jsonwebtoken'
-dotenv.config()
 import Models from '../models/index.js'
 const {User} = Models
+
 
 const protect = async (req, res, next) => {
     let token
     if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
         try {
             token = req.headers.authorization.split(' ')[1]
-            const decoded = jwt.verify(token, process.env.SECRET_KEY)
-            console.log('decoded: ', await User.findByPk(decoded.user_id))
+        const decoded = jwt.verify(token, process.env.SECRET_KEY)
             const user = await User.findByPk(decoded.user_id)
             if (!user) {
                 res.status(400)
                 throw new Error('Token Expired')
             }
-            req.user = await User.findByPk(decoded.user_id)
+            req.user = user
             next()
         } catch (error) {
             res.status(401).json({ message: 'Not authorized, token failed' })

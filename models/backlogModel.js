@@ -13,7 +13,7 @@ export default (sequelize, DataTypes) => {
             type: DataTypes.UUID,
             allowNull: true,
             references: {
-                model: 'issue_type',
+                model: 'issue_types',
                 key: 'id',
             },
             onUpdate: 'CASCADE',
@@ -23,7 +23,7 @@ export default (sequelize, DataTypes) => {
             type: DataTypes.UUID,
             allowNull: true,
             references: {
-                model: 'severity_type',
+                model: 'severity_types',
                 key: 'id',
             },
             onUpdate: 'CASCADE',
@@ -33,7 +33,7 @@ export default (sequelize, DataTypes) => {
             type: DataTypes.UUID,
             allowNull: true,
             references: {
-                model: 'user',
+                model: 'users',
                 key: 'id',
             },
             onUpdate: 'CASCADE',
@@ -60,7 +60,7 @@ export default (sequelize, DataTypes) => {
                 type: DataTypes.UUID,
                 allowNull: true,
                 references: {
-                    model: 'user',
+                    model: 'users',
                     key: 'id',
                 },
                 onUpdate: 'CASCADE',
@@ -70,7 +70,7 @@ export default (sequelize, DataTypes) => {
                 type: DataTypes.UUID,
                 allowNull: true,
                 references: {
-                    model: 'user',
+                    model: 'users',
                     key: 'id',
                 },
                 onUpdate: 'CASCADE',
@@ -78,9 +78,9 @@ export default (sequelize, DataTypes) => {
         },
         device_id: {
             type: DataTypes.UUID,
-            allowNull: false,
+            allowNull: true,
             references: {
-                model: 'device',
+                model: 'devices',
                 key: 'id',
             },
             onUpdate: 'CASCADE',

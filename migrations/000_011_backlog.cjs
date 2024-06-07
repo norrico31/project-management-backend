@@ -2,7 +2,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Backlogs', {
+    await queryInterface.createTable('backlogs', {
         id: {
             primaryKey: true,
             type: Sequelize.UUID,
@@ -54,7 +54,7 @@ module.exports = {
         },
         date_fixed: {
             type: Sequelize.DATE,
-            allowNull: false,
+            allowNull: true,
         },
         fixed_by: {
                 type: Sequelize.UUID,
@@ -80,7 +80,7 @@ module.exports = {
             type: Sequelize.UUID,
             allowNull: true,
             references: {
-                model: 'Device',
+                model: 'devices',
                 key: 'id',
             },
             onUpdate: 'CASCADE',
