@@ -30,7 +30,7 @@ const getReports = AsyncHandler(async (req, res) => {
             },
         ]
     })
-    return res.json({message: 'Success', data})
+    return res.json({ message: 'Success', data })
 })
 
 // GET
@@ -42,7 +42,7 @@ const getReport = AsyncHandler(async (req, res) => {
         res.status(404)
         throw new Error('Report not found!')
     }
-    return res.json({message: 'Success', data})
+    return res.json({ message: 'Success', data })
 })
 
 // POST
@@ -66,7 +66,7 @@ const createReport = AsyncHandler(async (req, res) => {
         description,
         actual_time_spent,
     })
-    return res.json({message: 'Create Report Successfully!', data})
+    return res.json({ message: 'Create Report Successfully!', data })
 })
 
 // PUT
@@ -108,7 +108,7 @@ const deleteReport = AsyncHandler(async (req, res) => {
         throw new Error('Report not found!')
     }
     data = await data.destroy()
-    return res.json({message: 'Delete Report Successfully!', data})
+    return res.json({ message: 'Delete Report Successfully!', data })
 })
 
 export {

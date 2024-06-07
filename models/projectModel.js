@@ -15,14 +15,15 @@ export default (sequelize, DataTypes) => {
             unique: true,
         },
         lead_dev: {
-            type: DataTypes.UUID,
-            allowNull: true,
-            references: {
-                model: 'users',
-                key: 'id',
-            },
-            onUpdate: 'CASCADE',
-            onDelete: 'SET NULL'
+            type: DataTypes.JSON,
+            // type: DataTypes.UUID,
+            // allowNull: true,
+            // references: {
+            //     model: 'users',
+            //     key: 'id',
+            // },
+            // onUpdate: 'CASCADE',
+            // onDelete: 'SET NULL'
         },
         devs: {
             type: DataTypes.JSON,

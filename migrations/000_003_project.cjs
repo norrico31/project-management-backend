@@ -11,18 +11,19 @@ module.exports = {
     },
     name: {
         type: Sequelize.STRING,
-        allowNull: false,
+        // allowNull: false,
 		unique: true,
     },
 	lead_dev: {
-		type: Sequelize.UUID,
-		allowNull: true,
-		references: {
-			model: 'users',
-			key: 'id',
-		},
-		onUpdate: 'CASCADE',
-		onDelete: 'SET NULL'
+		type: Sequelize.JSON,
+		// type: Sequelize.UUID,
+		// allowNull: true,
+		// references: {
+		// 	model: 'users',
+		// 	key: 'id',
+		// },
+		// onUpdate: 'CASCADE',
+		// onDelete: 'SET NULL'
 	},
     devs: {
 		type: Sequelize.JSON,

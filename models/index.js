@@ -21,6 +21,7 @@ db.Sequelize = Sequelize;
 import User from './userModel.js';
 import Role from './roleModel.js';
 import Report from './reportsModel.js';
+import Project from './projectModel.js';
 import Development from './developmentModel.js';
 import Backlog from './backlogModel.js';
 
@@ -34,6 +35,7 @@ import Device from './deviceModel.js';
 
 db.User = User(sequelize, Sequelize.DataTypes);
 db.Role = Role(sequelize, Sequelize.DataTypes);
+db.Project = Project(sequelize, Sequelize.DataTypes);
 db.Report = Report(sequelize, Sequelize.DataTypes);
 db.Development = Development(sequelize, Sequelize.DataTypes);
 db.Backlog = Backlog(sequelize, Sequelize.DataTypes);
