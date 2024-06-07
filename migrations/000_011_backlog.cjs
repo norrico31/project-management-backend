@@ -39,7 +39,7 @@ module.exports = {
             onUpdate: 'CASCADE',
             onDelete: 'SET NULL'
         },
-        qa_reference: {
+        qa_reference_id: {
             type: Sequelize.UUID,
             allowNull: true,
             references: {
@@ -66,7 +66,7 @@ module.exports = {
             type: Sequelize.DATE,
             allowNull: true,
         },
-        fixed_by: {
+        fixed_by_id: {
                 type: Sequelize.UUID,
                 allowNull: true,
                 references: {
@@ -76,7 +76,7 @@ module.exports = {
                 onUpdate: 'CASCADE',
                 onDelete: 'SET NULL'
         },
-        completed_by: {
+        completed_by_id: {
                 type: Sequelize.UUID,
                 allowNull: true,
                 references: {

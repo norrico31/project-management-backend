@@ -30,7 +30,7 @@ export default (sequelize, DataTypes) => {
         desktop_80: {
             type: DataTypes.STRING,
         },
-        tested_by: {
+        user_id: {
             type: DataTypes.UUID,
             references: {
                 model: 'users',

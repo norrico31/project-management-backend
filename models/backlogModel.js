@@ -39,7 +39,7 @@ export default (sequelize, DataTypes) => {
             onUpdate: 'CASCADE',
             onDelete: 'SET NULL'
         },
-        qa_reference: {
+        qa_reference_id: {
             type: DataTypes.UUID,
             allowNull: true,
             references: {
@@ -66,7 +66,7 @@ export default (sequelize, DataTypes) => {
             type: DataTypes.DATE,
             allowNull: true,
         },
-        fixed_by: {
+        fixed_by_id: {
                 type: DataTypes.UUID,
                 allowNull: true,
                 references: {
@@ -76,7 +76,7 @@ export default (sequelize, DataTypes) => {
                 onUpdate: 'CASCADE',
                 onDelete: 'SET NULL'
         },
-        completed_by: {
+        completed_by_id: {
                 type: DataTypes.UUID,
                 allowNull: true,
                 references: {

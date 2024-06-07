@@ -30,7 +30,7 @@ module.exports = {
     desktop_80: {
         type: Sequelize.STRING,
     },
-    tested_by: {
+    user_id: {
         type: Sequelize.UUID,
         references: {
             model: 'users',
