@@ -1,5 +1,5 @@
+import "dotenv";
 import express from "express";
-import { config as dotenvConfig } from "dotenv";
 import cors from "cors";
 import RateLimit from 'express-rate-limit';
 import bodyParser from "body-parser";
@@ -7,21 +7,26 @@ import {notFound,errorHandler} from './middleware/errorMiddleware.js'
 import Routes from './routes/index.js'
 import './database.js';
 
-dotenvConfig();
+const frontendUrl = 'http://localhost:5173'
+
+const app = express();
+
+app.use(cors({
+    origin: frontendUrl, // Allow requests from this origin
+    // methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // Specify allowed methods
+    credentials: true // If you need to allow credentials (cookies, authorization headers, etc.)
+}));
 
 const limiter = RateLimit({
     windowMs: 1 * 60 * 1000, // 1 minute
     max: 20,
 });
 
-const app = express();
 const PORT = process.env.PORT;
 
 app.use(limiter);
-app.use(cors());
 app.use(bodyParser.json({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
-
 
 app.listen(PORT, () => {
     Routes(app);
